@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('backend.dashboard');
+})->name('app.dashboard');
+
+
+Route::prefix('admin')->group(function () {
+
+});
+
+Route::group(['as'=>'app.','prefix' => 'app','middleware' => ['auth']],function(){
+    Route::resource('roles',RoleController::class);
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
