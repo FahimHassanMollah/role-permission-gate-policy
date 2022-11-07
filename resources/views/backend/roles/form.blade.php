@@ -128,6 +128,7 @@
     <script type="text/javascript">
         // Listen for click on toggle checkbox
         $('#select-all').click(function (event) {
+          
             if (this.checked) {
                 // Iterate each checkbox
                 $(':checkbox').each(function () {
