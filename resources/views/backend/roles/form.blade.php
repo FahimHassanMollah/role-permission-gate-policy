@@ -108,8 +108,8 @@
                         </button>
 
                         <button type="submit" class="btn btn-primary">
-                            @isset($user)
-                                <i class="fas fa-plus-circle"></i>
+                            @isset($role)
+                                <i class="fas fa-arrow-circle-up"></i>
                                 <span>Update</span>
                             @else
                                 <i class="fas fa-plus-circle"></i>
@@ -128,7 +128,7 @@
     <script type="text/javascript">
         // Listen for click on toggle checkbox
         $('#select-all').click(function (event) {
-          
+
             if (this.checked) {
                 // Iterate each checkbox
                 $(':checkbox').each(function () {

@@ -66,7 +66,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+
     }
 
     /**
@@ -77,7 +77,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        $modules = Module::get();
+        return view('backend.roles.form',['modules' => $modules,'role' => $role]);
     }
 
     /**
@@ -89,7 +90,24 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            // 'name'=>'required|unique:categories,name,'.$id,
+            'name' => 'required | unique:roles,name,'.$role->id,
+            'permissions.*' => 'integer',
+            'permissions' => 'required | array',
+
+        ]);
+
+        $role->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'description' => 'Default description',
+        ]);
+
+        $role->permissions()->sync($request->permissions);
+
+        return redirect()->route('app.roles.index');
     }
 
     /**
@@ -100,6 +118,10 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        // dd($role->permissions->pluck('id'));
+        if ($role->deletable) {
+            $role->permissions()->detach($role->permissions->pluck('id'));
+            $role->delete();
+        }
     }
 }

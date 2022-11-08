@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title','Roles')
+@section('title', 'Roles')
 
 @push('css')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
@@ -34,48 +34,56 @@
                 <div class="table-responsive">
                     <table id="datatable" class="align-middle mb-0 table table-borderless table-striped table-hover">
                         <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Permissions</th>
-                            <th class="text-center">Created At</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Permissions</th>
+                                <th class="text-center">Created At</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($roles as $key=>$role)
-                            <tr>
-                                <td class="text-center text-muted">#{{ $key + 1 }}</td>
-                                <td class="text-center">{{ $role->name }}</td>
-                                <td class="text-center">
-                                    @if ($role->permissions->count() > 0)
-                                        <span class="badge badge-info">{{ $role->permissions->count() }}</span>
-                                    @else
-                                        <span class="badge badge-danger">No permission found :(</span>
-                                    @endif
-                                </td>
-                                <td class="text-center">{{ $role->created_at->diffForHumans() }}</td>
-                                <td class="text-center">
-                                    <a class="btn btn-info btn-sm" href="{{ route('app.roles.edit',$role->id) }}"><i
-                                            class="fas fa-edit"></i>
-                                        <span>Edit</span>
-                                    </a>
-                                    @if ($role->deletable == true)
-                                        <button type="button" class="btn btn-danger btn-sm"
+                            @foreach ($roles as $key => $role)
+                                <tr>
+                                    <td class="text-center text-muted">#{{ $key + 1 }}</td>
+                                    <td class="text-center">{{ $role->name }}</td>
+                                    <td class="text-center">
+                                        @if ($role->permissions->count() > 0)
+                                            <span class="badge badge-info">{{ $role->permissions->count() }}</span>
+                                        @else
+                                            <span class="badge badge-danger">No permission found :(</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{{ $role->created_at->diffForHumans() }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-info btn-sm" href="{{ route('app.roles.edit', $role->id) }}"><i
+                                                class="fas fa-edit"></i>
+                                            <span>Edit</span>
+                                        </a>
+                                        @if ($role->deletable == true)
+                                            <form action="{{ route('app.roles.destroy', $role->id) }}" method="POST">
+                                                @csrf()
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    <span>Delete</span>
+                                                </button>
+                                            </form>
+                                            {{-- <button type="button" class="btn btn-danger btn-sm"
                                                 onclick="deleteData({{ $role->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                            <span>Delete</span>
-                                        </button>
-                                        <form id="delete-form-{{ $role->id }}"
-                                              action="{{ route('app.roles.destroy',$role->id) }}" method="POST"
-                                              style="display: none;">
-                                            @csrf()
-                                            @method('DELETE')
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
+                                                <i class="fas fa-trash-alt"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                            <form id="delete-form-{{ $role->id }}"
+                                                action="{{ route('app.roles.destroy', $role->id) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf()
+                                                @method('DELETE')
+                                            </form> --}}
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
