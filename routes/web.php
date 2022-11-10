@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\DasboardController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('backend.dashboard');
-})->name('app.dashboard');
+Route::get('/dashboard', [DasboardController::class,'index'])->name('app.dashboard');
 
 
 Route::prefix('admin')->group(function () {
